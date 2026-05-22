@@ -1,7 +1,26 @@
+# Dependencies
 node_modules
+
+# Build
 dist
-.DS_Store
-*.log
+
+# Environment
 .env
-.env.local
+.env.*
+!.env.example
+
+# Logs & OS
+*.log
+.DS_Store
+Thumbs.db
+
+# Vercel
 .vercel
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Legacy nested folder (should not exist)
+Agriloc/

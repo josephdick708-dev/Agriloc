@@ -1,6 +1,7 @@
 # AGRILOC — Plateforme agritech (Togo)
 
-Marketplace de location de machines agricoles : tracteurs, motoculteurs, moissonneuses, pulvérisateurs et pompes d'irrigatio
+Marketplace de location de machines agricoles : tracteurs, motoculteurs, moissonneuses, pulvérisateurs et pompes d'irrigation.
+
 **Stack :** React 18 · Vite 4 · Tailwind CSS 3 · Lucide React
 
 ---
@@ -8,207 +9,119 @@ Marketplace de location de machines agricoles : tracteurs, motoculteurs, moisson
 ## Démarrage rapide
 
 ```bash
-cd Agriloc
 npm install
 npm run dev
 ```
 
-Application disponible sur [http://localhost:5173](http://localhost:5173).
+Application : [http://localhost:5173](http://localhost:5173)
 
 | Commande | Description |
 |----------|-------------|
 | `npm run dev` | Serveur de développement |
-| `npm run build` | Build de production (`dist/`) |
+| `npm run build` | Build de production → `dist/` |
 | `npm run preview` | Prévisualisation du build |
 
 ---
 
-## Structure du projet
+## Structure du projet (racine unique)
+
+Tous les fichiers sont à la **racine du dépôt** — pas de sous-dossier `Agriloc/` ni `agriloc/` :
 
 ```
-Agriloc/
+./
 ├── public/
-│   ├── logo.png              # Icône / logo principal (fond transparent)
-│   └── machines/             # Photos des équipements marketplace
-│       ├── massey-ferguson-375.png
-│       ├── kubota-krt140.png
-│       ├── john-deere-w330.png
-│       ├── agrator-1200l.png
-│       └── lorentz-pompe.png
+│   ├── logo.png
+│   └── machines/
 ├── src/
-│   ├── App.jsx               # Données machines, réservations, navigation
+│   ├── App.jsx
 │   ├── components/
-│   │   ├── Navbar.jsx        # Barre de navigation + logo
-│   │   └── Footer.jsx        # Pied de page + logo
 │   └── pages/
-│       ├── Marketplace.jsx   # Liste des machines
-│       ├── MachineDetail.jsx # Fiche produit
-│       ├── SupplierDashboard.jsx
-│       └── ...
-├── index.html                # Favicon et métadonnées
-└── package.json
+├── index.html
+├── package.json
+├── vite.config.js
+├── tailwind.config.js
+├── postcss.config.js
+├── vercel.json
+└── .gitignore
 ```
-
----
-
-## Journal des modifications
-
-Récapitulatif des ajouts et changements réalisés sur le projet.
-
-### 1. Assets ajoutés (`public/`)
-
-#### Logo principal — `public/logo.png`
-- Icône de marque (A vert + cadenas) utilisée comme favicon et logo UI.
-- Fond **noir supprimé** → PNG **transparent**.
-- Image **recadrée** autour du symbole (sans grandes marges noires en bas ou sur les côtés).
-
-#### Photos machines — `public/machines/`
-
-| Fichier | Produit associé |
-|---------|-----------------|
-| `massey-ferguson-375.png` | Tracteur Massey Ferguson 375 |
-| `kubota-krt140.png` | Motoculteur Kubota KRT140 |
-| `john-deere-w330.png` | Moissonneuse-batteuse John Deere W330 |
-| `agrator-1200l.png` | Pulvérisateur Tracté Agrator 1200L |
-| `lorentz-pompe.png` | Pompe d'irrigation Solaire LORENTZ |
-
----
-
-### 2. Fichiers modifiés
-
-#### `index.html`
-- **Avant :** favicon emoji tracteur (SVG inline).
-- **Après :** favicon et icône Apple Touch → `/logo.png`.
-
-#### `src/App.jsx`
-- Remplacement des images Unsplash par les photos locales pour les 5 machines du catalogue initial (`images: ['/machines/...']`).
-
-#### `src/components/Navbar.jsx`
-- Remplacement de l’icône Lucide `Tractor` par `<img src="/logo.png" />`.
-- **Disposition :** logo et texte **AGRILOC** sur la même ligne ; sous-titre **TOGO AGRITECH** en dessous.
-- **Taille :** `h-9 w-auto` (hauteur fixe, largeur proportionnelle — évite les bandes latérales).
-- Alignement : `flex items-start` + léger `mt-0.5` sur l’image pour caler le « A » avec le texte.
-
-#### `src/components/Footer.jsx`
-- Même logo `/logo.png` à la place du tracteur.
-- Affichage : `h-10 w-auto object-contain`.
-
-#### `src/pages/SupplierDashboard.jsx`
-- Nouvelles annonces : images par catégorie via `categoryImages` (chemins locaux `/machines/...`).
-- Fallback des miniatures : `/machines/massey-ferguson-375.png` au lieu d’Unsplash.
-
-#### Pages impactées indirectement (affichage des `machine.images`)
-- `Marketplace.jsx` — cartes produits
-- `MachineDetail.jsx` — fiche détaillée
-- `FarmerDashboard.jsx` — réservations
-
----
-
-### 3. Évolutions UI du logo (navbar)
-
-| Étape | Changement |
-|-------|------------|
-| 1 | Ajout du logo comme icône principale (favicon + navbar + footer) |
-| 2 | Agrandissement (`h-16` navbar, `h-14` footer) |
-| 3 | Alignement icône + **AGRILOC** sur une même ligne |
-| 4 | Recadrage + fond transparent de `logo.png` |
-| 5 | Suppression des barres noires : `w-auto` au lieu de `w-9` / `w-16` carré |
-
----
-
-## Personnalisation
-
-### Changer le logo / favicon
-
-1. Remplacer `public/logo.png` (PNG transparent recommandé).
-2. Vérifier les liens dans `index.html` (`href="/logo.png"`).
-3. Ajuster taille / position dans `src/components/Navbar.jsx` et `Footer.jsx` (classes Tailwind sur la balise `<img>`).
-
-### Changer une photo machine
-
-1. Remplacer le fichier dans `public/machines/`.
-2. Mettre à jour le chemin dans `src/App.jsx` (tableau `machines`, champ `images`).
-3. Optionnel : mettre à jour `categoryImages` dans `SupplierDashboard.jsx` pour les nouvelles annonces par catégorie.
-
-### Ajouter une nouvelle machine avec image
-
-Dans `App.jsx`, ajouter un objet dans le state `machines` :
-
-```js
-{
-  id: 'm6',
-  name: 'Nom de la machine',
-  category: 'Tracteur',
-  images: ['/machines/mon-image.png'],
-  // ... autres champs
-}
-```
-
-Placer l’image dans `public/machines/mon-image.png`.
-
----
-
-## Catalogue initial (données)
-
-Les 5 machines de démo et leurs images locales :
-
-| ID | Nom | Catégorie | Image |
-|----|-----|-----------|-------|
-| m1 | Tracteur Massey Ferguson 375 | Tracteur | `/machines/massey-ferguson-375.png` |
-| m2 | Motoculteur Kubota KRT140 | Motoculteur | `/machines/kubota-krt140.png` |
-| m3 | Moissonneuse-batteuse John Deere W330 | Moissonneuse | `/machines/john-deere-w330.png` |
-| m4 | Pulvérisateur Tracté Agrator 1200L | Pulvérisateur | `/machines/agrator-1200l.png` |
-| m5 | Pompe d'irrigation Solaire LORENTZ | Pompe | `/machines/lorentz-pompe.png` |
 
 ---
 
 ## Déploiement Vercel
 
-### Cause fréquente de l'erreur `exit 126`
+### Réglages obligatoires
 
-Le dépôt peut avoir cette structure :
+| Paramètre | Valeur |
+|-----------|--------|
+| **Root Directory** | *(vide — ne rien saisir)* |
+| **Framework Preset** | Vite *(auto via `vercel.json`)* |
+| **Build Command** | `npm run build` |
+| **Output Directory** | `dist` |
+| **Node.js** | 18.x ou 20.x |
 
-```
-Agriloc/              ← racine GitHub (sans package.json)
-└── Agriloc/          ← application React (package.json ici)
-```
+### Erreurs à éviter
 
-Vercel lance alors `npm run build` au mauvais endroit → échec en quelques secondes.
+| Erreur | Cause | Solution |
+|--------|-------|----------|
+| `Root Directory "agriloc" does not exist` | Mauvais chemin | Laisser Root Directory **vide** |
+| `npm run build` exit **126** | `node_modules` commité (binaires Windows) | Ne jamais pousser `node_modules` — `.gitignore` en place |
+| Build en 4 secondes | Pas de `package.json` à la racine | Pousser depuis la racine du repo |
 
-### Solution A — Racine du projet = sous-dossier `Agriloc`
-
-1. Vercel → **Project Settings** → **General** → **Root Directory**
-2. Mettre : `Agriloc`
-3. **Save** puis **Redeploy**
-
-### Solution B — Fichier `vercel.json` à la racine du dépôt
-
-Un `vercel.json` parent est déjà fourni pour builder dans `Agriloc/` et publier `Agriloc/dist`.
-
-### Avant chaque push
-
-- Ne **pas** committer `node_modules` (`.gitignore` ajouté)
-- Pousser depuis le dossier qui contient `package.json`
+### Déployer
 
 ```bash
-cd Agriloc
+# À la racine du projet (là où se trouve package.json)
 git add .
-git commit -m "fix: config Vercel"
-git push
+git commit -m "chore: structure projet prête pour Vercel"
+git push origin main
 ```
 
-Puis **Redeploy** sur Vercel.
+Puis **Redeploy** sur le dashboard Vercel.
 
 ---
 
-## Notes techniques
+## Journal des modifications
 
-- Les fichiers dans `public/` sont servis à la racine (`/logo.png`, `/machines/...`).
-- Après modification du logo, forcer le rechargement du navigateur (**Ctrl+F5**) pour mettre à jour le favicon en cache.
-- Le projet applicatif se trouve dans le dossier `Agriloc/` (sous-dossier du dépôt téléchargé).
+### Assets (`public/`)
+
+| Fichier | Usage |
+|---------|--------|
+| `logo.png` | Favicon + logo navbar/footer (fond transparent) |
+| `machines/*.png` | Photos des 5 machines du catalogue |
+
+### Catalogue (prix journaliers en FCFA)
+
+| Machine | Prix |
+|---------|------|
+| Tracteur Massey Ferguson 375 | 75 000 |
+| Motoculteur Kubota KRT140 | 25 000 |
+| Moissonneuse John Deere W330 | 150 000 |
+| Pulvérisateur Agrator 1200L | **20 000** |
+| Pompe solaire LORENTZ | 15 000 |
+
+### Fichiers clés modifiés
+
+- `index.html` — favicon `/logo.png`
+- `src/App.jsx` — images locales + données machines
+- `src/components/Navbar.jsx` — logo aligné avec « AGRILOC »
+- `src/components/Footer.jsx` — logo
+- `src/pages/SupplierDashboard.jsx` — images par catégorie
+- `vercel.json` — configuration build Vercel
+- `.gitignore` — exclut `node_modules`, `dist`, `.vercel`
+
+---
+
+## Personnalisation
+
+| Élément | Fichier |
+|---------|---------|
+| Logo / favicon | `public/logo.png` + `index.html` |
+| Affichage logo | `src/components/Navbar.jsx`, `Footer.jsx` |
+| Photos machines | `public/machines/` + `src/App.jsx` |
+| Couleurs thème | `tailwind.config.js` |
 
 ---
 
 ## Licence
 
-Projet privé (`"private": true` dans `package.json`).
+Projet privé (`"private": true`).
