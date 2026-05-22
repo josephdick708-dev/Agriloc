@@ -75,7 +75,7 @@ export default function App() {
       category: 'Pulvérisateur',
       brand_model: 'Agrator-1200',
       power_hp: null,
-      daily_price: 35000,
+      daily_price: 20000,
       location_city: 'Kara',
       location_region: 'Kara',
       description: 'Pulvérisateur de grande capacité pour la fertilisation ou la protection biologique des cotonniers et céréales. Largeur de rampe de 15 mètres pour couvrir de grands espaces.',
