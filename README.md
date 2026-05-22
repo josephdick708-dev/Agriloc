@@ -162,6 +162,45 @@ Les 5 machines de démo et leurs images locales :
 
 ---
 
+## Déploiement Vercel
+
+### Cause fréquente de l'erreur `exit 126`
+
+Le dépôt peut avoir cette structure :
+
+```
+Agriloc/              ← racine GitHub (sans package.json)
+└── Agriloc/          ← application React (package.json ici)
+```
+
+Vercel lance alors `npm run build` au mauvais endroit → échec en quelques secondes.
+
+### Solution A — Racine du projet = sous-dossier `Agriloc`
+
+1. Vercel → **Project Settings** → **General** → **Root Directory**
+2. Mettre : `Agriloc`
+3. **Save** puis **Redeploy**
+
+### Solution B — Fichier `vercel.json` à la racine du dépôt
+
+Un `vercel.json` parent est déjà fourni pour builder dans `Agriloc/` et publier `Agriloc/dist`.
+
+### Avant chaque push
+
+- Ne **pas** committer `node_modules` (`.gitignore` ajouté)
+- Pousser depuis le dossier qui contient `package.json`
+
+```bash
+cd Agriloc
+git add .
+git commit -m "fix: config Vercel"
+git push
+```
+
+Puis **Redeploy** sur Vercel.
+
+---
+
 ## Notes techniques
 
 - Les fichiers dans `public/` sont servis à la racine (`/logo.png`, `/machines/...`).
